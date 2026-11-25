@@ -48,6 +48,30 @@ The script grants the app's user-assigned managed identity `AcrPull` at the regi
 
 *The baseline request reaches the app without an authenticated principal.*
 
+### Verify the deployment in the Azure portal
+
+Open the registry and select **Access control (IAM) > Role assignments**. Search for the demo managed identity and verify that **AcrPull** is scoped to **This resource**.
+
+![Registry IAM shows the demo managed identity assigned AcrPull on this resource](docs/images/28-registry-pull.png)
+
+*The managed identity can pull images from this registry.*
+
+Open the Container App's **Ingress** blade. The app accepts traffic from outside its environment using HTTP ingress. Check that **Insecure connections** is clear and the **Target port** is 8080. Clients connect over HTTPS and ACA forwards the request to the container's target port.
+
+![The Azure portal Ingress blade shows the external traffic and HTTP ingress options selected](docs/images/25-ingress.png)
+
+*External ingress gives the class a browser-accessible endpoint.*
+
+![The Ingress form shows target port 8080 with insecure connections disabled](docs/images/26-ingress-port.png)
+
+*ACA terminates HTTPS and forwards traffic to the application's listening port.*
+
+Open **App > Scale** and check that the minimum is zero and the maximum is one.
+
+![The Azure portal Scale blade shows minimum replicas 0 and maximum replicas 1](docs/images/27-scale.png)
+
+*The Consumption app can scale to zero after requests stop.*
+
 ## 2. Enable Microsoft Entra authentication
 
 ### Open the identity provider form
